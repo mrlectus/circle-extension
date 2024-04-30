@@ -1,4 +1,5 @@
 import {
+  createRestore,
   createToken,
   createUser,
   createWallet,
@@ -15,8 +16,11 @@ import {
   listWallet,
 } from "@/services/api/wallets";
 import { getFaucets } from "@/services/api/faucets";
-import { transfer } from "@/services/api/transactions";
+import { getTransactions, transfer } from "@/services/api/transactions";
 import { Transfer } from "@/services/api/transactions/schema";
+import { addContact, listContact } from "@/services/api/contact";
+import { Contact } from "@/services/api/contact/schema";
+import React from "react";
 
 export const useCreateUser = () => {
   const [increase, setUser] = useUserState((state) => [
@@ -85,18 +89,16 @@ export const useGetStatus = (token: string) => {
 
 export const useLogin = () => {
   const token = useCreateToken();
-  const navigate = useNavigate();
   return useMutation({
     mutationKey: ["login"],
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       login({ email, password }),
     onSuccess: (data) => {
-      toast.success("Login successful");
       token.mutate({ userId: data.userId });
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("username", data.username);
       localStorage.setItem("email", data.email);
-      navigate("/");
+      localStorage.setItem("id", data.id);
     },
     onError: (error) => {
       toast.error(error.message);
@@ -129,7 +131,7 @@ export const useGetWalletBalance = (walletId: string) => {
       }),
     enabled: !!walletId,
     retry: 5,
-    refetchInterval: 5000,
+    refetchInterval: 12000,
   });
 };
 
@@ -175,6 +177,82 @@ export const useTransfer = () => {
     onSuccess: (data) => {
       setChallengeID(data.data.challengeId);
       navigate("/challenge");
+    },
+  });
+};
+
+export const useListTransaction = () => {
+  return useQuery({
+    queryKey: ["transactions"],
+    queryFn: () => getTransactions(),
+  });
+};
+
+export const useCreateRestore = () => {
+  const [setChallengeID] = useChallengeState((state) => [state.setChallengeId]);
+  const navigate = useNavigate();
+  return useMutation({
+    mutationKey: ["restore"],
+    mutationFn: createRestore,
+    onSuccess: (data) => {
+      setChallengeID(data.data.challengeId);
+      navigate("/challenge");
+    },
+    onError: () => {
+      toast.error("cannot generate key!");
+    },
+  });
+};
+
+export const useListContact = (userId: string) => {
+  const [name, setName] = React.useState<string | undefined>();
+  const [tag, setTag] = React.useState<string | undefined>();
+
+  const filterContact = React.useCallback(
+    (contact: Array<Contact>) => {
+      if (!name && !tag) return contact;
+      return contact.filter(
+        (c) =>
+          c.name.toLowerCase().includes(name?.toLowerCase() as string) ||
+          c.tags
+            .filter((x) => x.toLowerCase() === tag?.toLowerCase())
+            .includes(tag?.toLowerCase() as string)
+      );
+    },
+    [name, tag]
+  );
+
+  return [
+    useQuery({
+      queryKey: ["contact", userId],
+      queryFn: () => listContact({ userId }),
+      select: filterContact,
+    }),
+    setName,
+    setTag,
+  ] as const;
+};
+
+export const useAddContact = () => {
+  const id = localStorage.getItem("id") as string;
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["add-contact"],
+    mutationFn: ({
+      name,
+      walletAddress,
+      tags,
+    }: Omit<Contact, "id" | "count" | "userId" | "tags"> & { tags: string }) =>
+      addContact({
+        name,
+        walletAddress,
+        tags,
+        userId: Number(id),
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["contact", id],
+      });
     },
   });
 };

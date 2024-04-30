@@ -19,3 +19,20 @@ export const formatCurrency = (
     currency,
   }).format(amount);
 };
+
+export const asyncSetItem = (key: string, value: string) => {
+  return new Promise((resolve) => {
+    resolve(localStorage.setItem(key, value));
+  });
+};
+
+export const asyncGetItem = (key: string) => {
+  return new Promise((resolve, reject) => {
+    const data = localStorage.getItem(key);
+    if (data) {
+      resolve(data);
+    } else {
+      reject("No data found");
+    }
+  });
+};

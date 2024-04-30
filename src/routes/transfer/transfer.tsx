@@ -1,9 +1,17 @@
 import { SVGUsdc } from "@/components/icons";
 import { Button } from "@/components/ui/button";
-import { useGetWalletBalance, useListWallet } from "@/hooks/api";
+import { Separator } from "@/components/ui/separator";
+import {
+  useGetWalletBalance,
+  useListTransaction,
+  useListWallet,
+} from "@/hooks/api";
 import { formatCurrency } from "@/lib/utils";
 import { ChevronLeft, MoveUpRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { Transactions } from "./transactions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { T } from "@/services/api/transactions/schema";
 
 export const Transfer = () => {
   const listWallet = useListWallet();
@@ -11,6 +19,7 @@ export const Transfer = () => {
   const balance = useGetWalletBalance(walletId);
   const tBalance1 = balance.data?.data?.tokenBalances[1]?.amount || 0;
   const navigate = useNavigate();
+  const transactions = useListTransaction();
 
   return (
     <div className="p-1">
@@ -41,6 +50,19 @@ export const Transfer = () => {
         >
           <MoveUpRight /> Send
         </Button>
+      </div>
+      <Separator />
+      <div className="flex flex-col gap-3">
+        <p className="mx-2 mt-1">Activity</p>
+        <div className="flex flex-col gap-2 h-36 scrollbar-thin scrollbar-thumb-indigo-300 overflow-y-scroll p-2">
+          {transactions.data?.data.transactions?.map((transaction: T) =>
+            transactions.isFetching ? (
+              <Skeleton className="w-full h-48" />
+            ) : (
+              <Transactions transaction={transaction} key={transaction.id} />
+            )
+          )}
+        </div>
       </div>
     </div>
   );

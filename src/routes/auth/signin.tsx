@@ -21,7 +21,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/api";
 import { LoaderCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -38,6 +39,7 @@ const SignIn = () => {
   });
 
   const login = useLogin();
+  const navigate = useNavigate();
   return (
     <main className="w-[300px]">
       <Card>
@@ -56,7 +58,14 @@ const SignIn = () => {
         <CardContent>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit((data) => login.mutate(data))}
+              onSubmit={form.handleSubmit((data) =>
+                login.mutate(data, {
+                  onSuccess: () => {
+                    toast.success("Login success");
+                    navigate("/");
+                  },
+                })
+              )}
               className="space-y-6"
             >
               <FormField

@@ -85,3 +85,16 @@ export const login = async ({
     throw error;
   }
 };
+
+export const createRestore = async () => {
+  const response = await fetch(`${BASE_URL}/users/pin/restore`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Token": localStorage.getItem("userToken") as string,
+    },
+    body: JSON.stringify({}),
+  });
+  const challenge = await response.json();
+  return challenge as ChallengeType;
+};

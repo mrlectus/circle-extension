@@ -1,14 +1,10 @@
-import React from "react";
 import { isExpired } from "react-jwt";
 
-export const useIsLoggedIn = () => {
+export const isLoggedIn = () => {
   const token = localStorage.getItem("userToken");
-  const [login, setLogin] = React.useState<boolean>(
-    () => !isExpired(token as string)
-  );
-  React.useEffect(() => {
-    const expired = isExpired(token as string);
-    setLogin(!expired);
-  }, [token]);
-  return [login] as const;
+  if (token) {
+    const login = !isExpired(token as string);
+    return login;
+  }
+  return false;
 };

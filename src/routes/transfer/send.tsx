@@ -1,5 +1,5 @@
 import { ChevronLeft } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -35,10 +35,11 @@ const formSchema = z.object({
 });
 
 export const Send = () => {
+  const location = useLocation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      destinationAddress: "",
+      destinationAddress: location.state?.walletAddress || "",
       amounts: "",
     },
   });

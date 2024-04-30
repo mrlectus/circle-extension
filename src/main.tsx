@@ -13,6 +13,9 @@ import AuthRoute from "./routes/auth/auth-route.tsx";
 import { AssetsDetails } from "./routes/assets-details.tsx";
 import { Transfer } from "./routes/transfer/transfer.tsx";
 import { Send } from "./routes/transfer/send.tsx";
+import Restore from "./routes/restore/index.tsx";
+import Contact from "./routes/contacts/index.tsx";
+import AddContact from "./routes/contacts/add.tsx";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -42,6 +45,18 @@ const router = createMemoryRouter([
       {
         path: "/challenge",
         element: <Challenge />,
+      },
+      {
+        path: "/contacts",
+        element: <Contact />,
+      },
+      {
+        path: "/addcontact",
+        element: <AddContact />,
+      },
+      {
+        path: "/restore",
+        element: <Restore />,
       },
     ],
   },

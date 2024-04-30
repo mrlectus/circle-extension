@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/lib/config";
-import { Transfer } from "./schema";
+import { Transaction, Transfer } from "./schema";
 
 export const transfer = async ({
   userId,
@@ -24,4 +24,15 @@ export const transfer = async ({
   });
   const challenge = await response.json();
   return challenge as ChallengeType;
+};
+
+export const getTransactions = async () => {
+  const response = await fetch(`${BASE_URL}/transactions`, {
+    headers: {
+      "Content-Type": "application/json",
+      "X-User-Token": localStorage.getItem("userToken") as string,
+    },
+  });
+  const transactions = await response.json();
+  return transactions as Transaction;
 };

@@ -53,7 +53,7 @@ export const NavBar = () => {
                   width={70}
                   height={70}
                 />
-                <h3 className="text-2xl">CIRCLE</h3>
+                <p className="text-2xl">CIRCLE</p>
               </SheetTitle>
             </SheetHeader>
             <ul className="p-1 mt-4 w-full">
@@ -65,13 +65,13 @@ export const NavBar = () => {
               </li>
               <li className="flex items-center gap-2 w-full hover:bg-white/20 p-1 rounded-md drop-shadow-md">
                 <CircleDollarSign />
-                <Link to="/contacts" className="">
+                <Link to="#" className="">
                   Currency
                 </Link>
               </li>
               <li className="flex items-center gap-2 w-full hover:bg-white/20 p-1 rounded-md drop-shadow-md">
                 <Lock />
-                <Link to="/contacts" className="">
+                <Link to="/restore" className="">
                   Security &amp; Privacy
                 </Link>
               </li>
