@@ -1,14 +1,35 @@
 import { BASE_URL } from "@/lib/config";
 import { Contact, Contacts } from "./schema";
 
+// This function fetches a list of contacts associated with the specified user ID from the server.
+// It handles errors gracefully and returns the fetched contacts if successful.
+// Parameters:
+// - userId: The ID of the user for whom contacts are being fetched.
 export const listContact = async ({ userId }: { userId: string }) => {
-  const response = await fetch(`${BASE_URL}/contacts/${userId}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const contacts = await response.json();
-  return contacts as Contacts;
+  try {
+    // Send a GET request to the server to fetch contacts for the specified user ID
+    const response = await fetch(`${BASE_URL}/contacts/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // Check if the response is successful
+    if (!response.ok) {
+      // If the response is not ok, throw an error with the appropriate message
+      throw new Error(`Failed to fetch contacts. Status: ${response.status}`);
+    }
+
+    // Parse the JSON response
+    const contacts = await response.json();
+
+    // Return the fetched contacts
+    return contacts as Contacts;
+  } catch (error) {
+    // If an error occurs during the fetch operation, log the error and re-throw it
+    console.error("Error fetching contacts:", error);
+    throw error;
+  }
 };
 
 // Function to add a new contact to the user's contact list
