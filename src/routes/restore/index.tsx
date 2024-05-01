@@ -8,7 +8,7 @@ import { match } from "ts-pattern";
 const Restore = () => {
   const navigate = useNavigate();
   const restore = useCreateRestore();
-  const [cookies] = useCookies(["userId"]);
+  const [cookies] = useCookies(["userToken"]);
   return (
     <main className="w-[300px] h-[400px] p-2 text-white font-space">
       <div className="flex gap-2 items-center">
@@ -21,7 +21,7 @@ const Restore = () => {
       <div className="flex justify-between items-center p-4 w-full">
         <Button
           variant={"secondary"}
-          onClick={() => restore.mutate(cookies?.userId)}
+          onClick={() => restore.mutate(cookies?.userToken)}
         >
           {match(restore.status)
             .with("pending", () => (

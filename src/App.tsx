@@ -5,8 +5,8 @@ import { useCookies } from "react-cookie";
 
 const App = () => {
   const [_, setUser] = React.useState<string | null>();
+  const [cookies] = useCookies(["userToken"]);
   React.useEffect(() => {
-    const [cookies] = useCookies(["userToken"]);
     setUser(cookies?.userToken);
   });
   return (

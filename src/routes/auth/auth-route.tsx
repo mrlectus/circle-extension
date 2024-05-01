@@ -4,12 +4,12 @@ import { useJwt } from "react-jwt";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const AuthRoute = () => {
-  const [cookies] = useCookies(["token"]);
-  const [token] = React.useState(cookies?.token);
+  const [cookies] = useCookies(["userToken"]);
+  const [token] = React.useState(cookies?.userToken);
   const navigate = useNavigate();
-  const { isExpired } = useJwt(cookies?.token || "");
+  const { isExpired } = useJwt(cookies?.userToken || "");
   React.useEffect(() => {
-    if (!cookies?.token) {
+    if (!cookies?.userToken) {
       navigate("/signin", {
         replace: true,
         state: { message: "Please Login" },
@@ -24,7 +24,7 @@ const AuthRoute = () => {
         navigate("/", { replace: true });
       }
     }
-  }, [token, navigate, cookies.token, isExpired]);
+  }, [token, navigate, cookies.userToken, isExpired]);
 
   return (
     <React.Suspense fallback={"Loading"}>

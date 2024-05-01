@@ -1,6 +1,7 @@
 import {
   ChevronDown,
   Circle,
+  CircleArrowOutUpLeft,
   CircleDollarSign,
   CircleUser,
   Copy,
@@ -24,13 +25,30 @@ import { Skeleton } from "./ui/skeleton";
 import toast from "react-hot-toast";
 import { match } from "ts-pattern";
 import { useCookies } from "react-cookie";
+import { Button } from "./ui/button";
 
 export const NavBar = () => {
   const [username, setUserName] = React.useState<string | null>();
-  const [cookies] = useCookies(["username"]);
+  const [cookies, _, deleteCookies] = useCookies([
+    "username",
+    "email",
+    "encryptionKey",
+    "id",
+    "userToken",
+    "userId",
+  ]);
   React.useEffect(() => {
     setUserName(cookies?.username);
   });
+
+  const handleDelete = () => {
+    deleteCookies("username");
+    deleteCookies("email");
+    deleteCookies("encryptionKey");
+    deleteCookies("id");
+    deleteCookies("userToken");
+    deleteCookies("userId");
+  };
 
   const listWallet = useListWallet();
   const blockchain = match(listWallet.data?.data?.wallets?.[0]?.blockchain)
@@ -75,6 +93,16 @@ export const NavBar = () => {
                 <Link to="/restore" className="">
                   Security &amp; Privacy
                 </Link>
+              </li>
+              <li className="flex items-center gap-2 w-full p-1 rounded-md drop-shadow-md">
+                <Button
+                  onClick={handleDelete}
+                  variant={"destructive"}
+                  className="flex gap-1"
+                >
+                  <CircleArrowOutUpLeft />
+                  Logout
+                </Button>
               </li>
             </ul>
           </SheetContent>

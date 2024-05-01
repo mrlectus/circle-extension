@@ -30,12 +30,17 @@ export const useCreateUser = () => {
     state.increase,
     state.setUser,
   ]);
+  const [_, setCookies] = useCookies(["userId", "username", "email", "id"]);
   return useMutation({
     mutationKey: ["user"],
     mutationFn: ({ username, email, password }: Omit<User, "id" | "userId">) =>
       createUser({ username, email, password }),
     onSuccess: (data) => {
       setUser(data);
+      setCookies("userId", data.userId, { path: "/" });
+      setCookies("username", data.username, { path: "/" });
+      setCookies("email", data.email, { path: "/" });
+      setCookies("id", data.id, { path: "/" });
       increase();
     },
   });
@@ -50,12 +55,13 @@ export const useCreateToken = () => {
     mutationKey: ["token"],
     mutationFn: ({ userId }: { userId: string }) => createToken({ userId }),
     onSuccess: (data) => {
+      console.log(data.data.userToken);
       setToken({
-        encryptionKey: data.data.encryptionKey,
-        userToken: data.data.userToken,
+        encryptionKey: data.data?.encryptionKey,
+        userToken: data.data?.userToken,
       });
-      setCookies("userToken", data.data.userToken, { path: "/" });
-      setCookies("encryptionKey", data.data.userToken, { path: "/" });
+      setCookies("userToken", data.data?.userToken, { path: "/" });
+      setCookies("encryptionKey", data.data?.encryptionKey, { path: "/" });
       increase();
     },
     onError: () => {
@@ -109,15 +115,7 @@ export const useLogin = () => {
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Trigger the token mutation to create a token for the logged-in user
-      token.mutate(
-        { userId: data.userId },
-        {
-          onSettled: () => {
-            console.log("<login success>");
-            location.reload();
-          },
-        }
-      );
+      token.mutate({ userId: data.userId });
       // Store user data in the local storage for persistent session management
 
       setCookies("userId", data.userId, { path: "/" });
@@ -256,7 +254,7 @@ export const useCreateRestore = () => {
     // Define a unique key for this mutation
     mutationKey: ["restore"],
     // Define the mutation function which will be executed when the mutation is triggered
-    mutationFn: (userId: string) => createRestore(userId),
+    mutationFn: (userToken: string) => createRestore(userToken),
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Update the challenge ID state with the ID of the created challenge
