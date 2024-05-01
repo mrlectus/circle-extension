@@ -46,7 +46,7 @@ const Contact = () => {
           ))
           .otherwise(() => (
             <div className="p-2 text-sm">
-              {contact.data?.map((c) => (
+              {contact?.data?.map((c) => (
                 <div
                   key={c.id}
                   onClick={() =>
@@ -58,8 +58,9 @@ const Contact = () => {
                 >
                   <p>{c.name}</p>
                   <div className="flex gap-1">
-                    {c.tags.map((t) => (
+                    {c.tags.slice(0, 2).map((t) => (
                       <Badge
+                        key={t}
                         className="h-3 text-[10px] cursor-pointer"
                         variant={"secondary"}
                       >

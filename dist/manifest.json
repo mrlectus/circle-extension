@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "Circle Wallet",
+  "version": "1.0.0",
+  "description": "Extension for Circle Wallet",
+  "icons": {
+    "16": "circle.png",
+    "32": "circle.png",
+    "48": "circle.png",
+    "128": "circle.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Circle Wallet"
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}

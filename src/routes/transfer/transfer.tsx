@@ -57,7 +57,7 @@ export const Transfer = () => {
         <div className="flex flex-col gap-2 h-36 scrollbar-thin scrollbar-thumb-indigo-300 overflow-y-scroll p-2">
           {transactions.data?.data.transactions?.map((transaction: T) =>
             transactions.isFetching ? (
-              <Skeleton className="w-full h-48" />
+              <Skeleton className="w-full h-48" key={transaction.id} />
             ) : (
               <Transactions transaction={transaction} key={transaction.id} />
             )

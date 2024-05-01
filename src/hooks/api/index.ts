@@ -21,6 +21,7 @@ import { Transfer } from "@/services/api/transactions/schema";
 import { addContact, listContact } from "@/services/api/contact";
 import { Contact } from "@/services/api/contact/schema";
 import React from "react";
+import { useCookies } from "react-cookie";
 
 // This custom hook handles the creation of a new user.
 // It utilizes React Query's useMutation hook to perform the mutation operation.
@@ -42,6 +43,7 @@ export const useCreateUser = () => {
 
 // This custom hook handles the creation of a new token.
 export const useCreateToken = () => {
+  const [_, setCookies] = useCookies(["token"]);
   const [setToken] = useTokenState((state) => [state.setToken]);
   const [increase] = useUserState((state) => [state.increase]);
   return useMutation({
@@ -52,6 +54,7 @@ export const useCreateToken = () => {
         encryptionKey: data.data.encryptionKey,
         userToken: data.data.userToken,
       });
+      setCookies("token", data.data.userToken, { path: "/" });
       localStorage.setItem("userToken", data.data.userToken);
       localStorage.setItem("encryptionKey", data.data.encryptionKey);
       increase();
@@ -107,7 +110,15 @@ export const useLogin = () => {
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Trigger the token mutation to create a token for the logged-in user
-      token.mutate({ userId: data.userId });
+      token.mutate(
+        { userId: data.userId },
+        {
+          onSettled: () => {
+            console.log("<login success>");
+            location.reload();
+          },
+        }
+      );
       // Store user data in the local storage for persistent session management
       localStorage.setItem("userId", data.userId);
       localStorage.setItem("username", data.username);
