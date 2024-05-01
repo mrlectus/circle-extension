@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { SVGPolygon, SVGSepolia } from "@/components/icons";
 import { useCreateWallet } from "@/hooks/api";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   blockchains: z.string(),
@@ -49,7 +50,13 @@ export const Wallet = () => {
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit((data) => wallet.mutate(data))}
+            onSubmit={form.handleSubmit((data) =>
+              wallet.mutate(data, {
+                onSuccess: () => {
+                  toast.success("Wallet created successfully");
+                },
+              })
+            )}
             className="space-y-5"
           >
             <FormField

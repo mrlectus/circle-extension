@@ -174,14 +174,14 @@ export const login = async ({
 // It requires a valid user token for authentication.
 // Returns:
 // - The response from the server containing information about the restoration process.
-export const createRestore = async () => {
+export const createRestore = async (userToken: string) => {
   try {
     // Send a POST request to the server to initiate PIN restoration
     const response = await fetch(`${BASE_URL}/users/pin/restore`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-User-Token": localStorage.getItem("userToken") as string,
+        "X-User-Token": userToken,
       },
       body: JSON.stringify({}),
     });

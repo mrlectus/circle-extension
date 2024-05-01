@@ -13,11 +13,11 @@ import { Link } from "react-router-dom";
 export const Collections = () => {
   const listWallet = useListWallet();
   const walletId = listWallet.data?.data?.wallets[0]?.id as string;
-  const blockchain = match(listWallet.data?.data?.wallets?.[0].blockchain)
+  const blockchain = match(listWallet.data?.data?.wallets?.[0]?.blockchain)
     .with("ETH-SEPOLIA", () => <SVGSepolia className="w-10 h-10" />)
     .with("MATIC-AMOY", () => <SVGPolygon className="w-10 h-10" />)
     .otherwise(() => null);
-  const blockchain2 = match(listWallet.data?.data?.wallets?.[0].blockchain)
+  const blockchain2 = match(listWallet.data?.data?.wallets?.[0]?.blockchain)
     .with("ETH-SEPOLIA", () => <SVGSepolia className="w-6 h-6" />)
     .with("MATIC-AMOY", () => <SVGPolygon className="w-6 h-6" />)
     .otherwise(() => null);

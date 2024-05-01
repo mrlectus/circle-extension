@@ -1,12 +1,13 @@
 import React from "react";
 import { NavBar } from "./components/navbar";
 import { Outlet } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const App = () => {
   const [_, setUser] = React.useState<string | null>();
   React.useEffect(() => {
-    const token = localStorage.getItem("userId");
-    setUser(token);
+    const [cookies] = useCookies(["userToken"]);
+    setUser(cookies?.userToken);
   });
   return (
     <>

@@ -1,6 +1,7 @@
 import { useChallengeState, useTokenState } from "@/store/store";
 import { W3SSdk } from "@circle-fin/w3s-pw-web-sdk";
 import React from "react";
+import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 
 const Challenge = () => {
@@ -12,10 +13,12 @@ const Challenge = () => {
     state.setToken,
   ]);
 
+  const [cookies] = useCookies(["userToken", "encryptionKey"]);
+
   React.useEffect(() => {
     setUserToken({
-      userToken: localStorage.getItem("userToken") || userToken,
-      encryptionKey: localStorage.getItem("encryptionKey") || encryptionKey,
+      userToken: cookies?.userToken || userToken,
+      encryptionKey: cookies?.encryptionKey || encryptionKey,
     });
   }, []);
 

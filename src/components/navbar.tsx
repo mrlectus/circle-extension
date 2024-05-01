@@ -23,16 +23,17 @@ import { formatAddress } from "@/lib/utils";
 import { Skeleton } from "./ui/skeleton";
 import toast from "react-hot-toast";
 import { match } from "ts-pattern";
+import { useCookies } from "react-cookie";
 
 export const NavBar = () => {
   const [username, setUserName] = React.useState<string | null>();
+  const [cookies] = useCookies(["username"]);
   React.useEffect(() => {
-    const uname = localStorage.getItem("username");
-    setUserName(uname);
+    setUserName(cookies?.username);
   });
 
   const listWallet = useListWallet();
-  const blockchain = match(listWallet.data?.data?.wallets?.[0].blockchain)
+  const blockchain = match(listWallet.data?.data?.wallets?.[0]?.blockchain)
     .with("ETH-SEPOLIA", () => <SVGSepolia />)
     .with("MATIC-AMOY", () => <SVGPolygon />)
     .otherwise(() => null);

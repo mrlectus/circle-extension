@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { SVGSepolia, SVGUsdc } from "@/components/icons";
 import { useGetWalletBalance, useListWallet, useTransfer } from "@/hooks/api";
+import { useCookies } from "react-cookie";
 
 const formSchema = z.object({
   destinationAddress: z.string().min(1, { message: "Address is required" }),
@@ -43,6 +44,8 @@ export const Send = () => {
       amounts: "",
     },
   });
+
+  const [cookies] = useCookies(["userId"]);
   const navigate = useNavigate();
 
   const walletId = useListWallet();
@@ -68,7 +71,7 @@ export const Send = () => {
               transfer.mutate({
                 ...data,
                 walletId: wId,
-                userId: localStorage.getItem("userId") as string,
+                userId: cookies?.userId,
               })
             )}
             className="space-y-8"

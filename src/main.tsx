@@ -16,6 +16,7 @@ import { Send } from "./routes/transfer/send.tsx";
 import Restore from "./routes/restore/index.tsx";
 import Contact from "./routes/contacts/index.tsx";
 import AddContact from "./routes/contacts/add.tsx";
+import NotificationHook from "./routes/auth/notification.tsx";
 
 // Create a client
 const queryClient = new QueryClient();
@@ -25,38 +26,43 @@ const router = createMemoryRouter([
     element: <AuthRoute />,
     children: [
       {
-        path: "/",
-        element: <App />,
+        element: <NotificationHook />,
         children: [
           {
-            index: true,
-            element: <AssetsDetails />,
+            path: "/",
+            element: <App />,
+            children: [
+              {
+                index: true,
+                element: <AssetsDetails />,
+              },
+              {
+                path: "/transfer",
+                element: <Transfer />,
+              },
+              {
+                path: "/send",
+                element: <Send />,
+              },
+            ],
           },
           {
-            path: "/transfer",
-            element: <Transfer />,
+            path: "/challenge",
+            element: <Challenge />,
           },
           {
-            path: "/send",
-            element: <Send />,
+            path: "/contacts",
+            element: <Contact />,
+          },
+          {
+            path: "/addcontact",
+            element: <AddContact />,
+          },
+          {
+            path: "/restore",
+            element: <Restore />,
           },
         ],
-      },
-      {
-        path: "/challenge",
-        element: <Challenge />,
-      },
-      {
-        path: "/contacts",
-        element: <Contact />,
-      },
-      {
-        path: "/addcontact",
-        element: <AddContact />,
-      },
-      {
-        path: "/restore",
-        element: <Restore />,
       },
     ],
   },

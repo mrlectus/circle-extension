@@ -3,12 +3,14 @@ import { Input } from "@/components/ui/input";
 import { useListContact } from "@/hooks/api";
 import { formatAddress } from "@/lib/utils";
 import { ChevronLeft, Copy, LoaderCircle, Plus } from "lucide-react";
+import { useCookies } from "react-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import { match } from "ts-pattern";
 
 const Contact = () => {
   const navigate = useNavigate();
-  const userId = localStorage.getItem("id") as string;
+  const [cookies] = useCookies(["userId"]);
+  const userId = cookies?.userId;
   const [contact, setName, setTag] = useListContact(userId);
   return (
     <main className="w-[300px] h-[400px] p-2 text-white font-space">

@@ -43,7 +43,7 @@ export const useCreateUser = () => {
 
 // This custom hook handles the creation of a new token.
 export const useCreateToken = () => {
-  const [_, setCookies] = useCookies(["token"]);
+  const [_, setCookies] = useCookies(["userToken", "encryptionKey"]);
   const [setToken] = useTokenState((state) => [state.setToken]);
   const [increase] = useUserState((state) => [state.increase]);
   return useMutation({
@@ -54,9 +54,8 @@ export const useCreateToken = () => {
         encryptionKey: data.data.encryptionKey,
         userToken: data.data.userToken,
       });
-      setCookies("token", data.data.userToken, { path: "/" });
-      localStorage.setItem("userToken", data.data.userToken);
-      localStorage.setItem("encryptionKey", data.data.encryptionKey);
+      setCookies("userToken", data.data.userToken, { path: "/" });
+      setCookies("encryptionKey", data.data.userToken, { path: "/" });
       increase();
     },
     onError: () => {
@@ -76,8 +75,7 @@ export const useCreateWallet = () => {
     mutationFn: ({ blockchains }: { blockchains: string }) =>
       createWallet({ blockchains, token, userId }),
     onSuccess: (data) => {
-      setChallengeID(data.data.challengeId);
-      toast.success("Wallet created successfully");
+      setChallengeID(data.data?.challengeId);
       navigate("/challenge");
     },
     onError: (error) => {
@@ -99,6 +97,7 @@ export const useGetStatus = (token: string) => {
 export const useLogin = () => {
   // Call the useCreateToken hook to obtain a token for the logged-in user
   const token = useCreateToken();
+  const [_, setCookies] = useCookies(["userId", "username", "email", "id"]);
 
   // Use React Query's useMutation hook to define the mutation operation
   return useMutation({
@@ -120,10 +119,11 @@ export const useLogin = () => {
         }
       );
       // Store user data in the local storage for persistent session management
-      localStorage.setItem("userId", data.userId);
-      localStorage.setItem("username", data.username);
-      localStorage.setItem("email", data.email);
-      localStorage.setItem("id", data.id);
+
+      setCookies("userId", data.userId, { path: "/" });
+      setCookies("username", data.username, { path: "/" });
+      setCookies("email", data.email, { path: "/" });
+      setCookies("id", data.id, { path: "/" });
     },
     // Define the onError callback function which will be executed when an error occurs during the mutation
     onError: (error) => {
@@ -143,20 +143,21 @@ export const useGetWallet = ({ walletId }: { walletId: string }) => {
 
 // This custom hook retrieves a list of wallets associated with the current user.
 export const useListWallet = () => {
+  const [cookies] = useCookies(["userToken"]);
   return useQuery({
     queryKey: ["wallets"],
-    queryFn: () =>
-      listWallet({ token: localStorage.getItem("userToken") as string }),
+    queryFn: () => listWallet({ token: cookies?.userToken }),
   });
 };
 
 // This custom hook retrieves the balance of a specific wallet.
 export const useGetWalletBalance = (walletId: string) => {
+  const [cookies] = useCookies(["userToken"]);
   return useQuery({
     queryKey: ["walletBalance", walletId],
     queryFn: () =>
       getWalletBalance({
-        token: localStorage.getItem("userToken") as string,
+        token: cookies?.userToken,
         walletId,
       }),
     enabled: !!walletId,
@@ -204,6 +205,7 @@ export const useGetFaucet = (walletId: string) => {
 export const useTransfer = () => {
   const navigate = useNavigate(); // Access the navigate function from React Router
   const [setChallengeID] = useChallengeState((state) => [state.setChallengeId]); // Retrieve setChallengeId function from global challenge state
+  const [cookies] = useCookies(["userToken"]);
 
   // Use React Query's useMutation hook to define the mutation operation
   return useMutation({
@@ -217,7 +219,14 @@ export const useTransfer = () => {
       tokenId,
       walletId,
     }: Transfer) =>
-      transfer({ userId, destinationAddress, amounts, tokenId, walletId }), // Call the transfer function with provided parameters
+      transfer({
+        userId,
+        destinationAddress,
+        amounts,
+        tokenId,
+        walletId,
+        userToken: cookies?.userToken,
+      }), // Call the transfer function with provided parameters
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Update the challenge ID state with the ID of the created challenge
@@ -230,9 +239,10 @@ export const useTransfer = () => {
 
 // This custom hook retrieves a list of transactions.
 export const useListTransaction = () => {
+  const [cookies] = useCookies(["userToken"]);
   return useQuery({
     queryKey: ["transactions"],
-    queryFn: () => getTransactions(),
+    queryFn: () => getTransactions(cookies?.userToken),
   });
 };
 
@@ -246,7 +256,7 @@ export const useCreateRestore = () => {
     // Define a unique key for this mutation
     mutationKey: ["restore"],
     // Define the mutation function which will be executed when the mutation is triggered
-    mutationFn: createRestore,
+    mutationFn: (userId: string) => createRestore(userId),
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Update the challenge ID state with the ID of the created challenge
@@ -297,7 +307,7 @@ export const useListContact = (userId: string) => {
 
 // This custom hook handles the addition of a new contact.
 export const useAddContact = () => {
-  const id = localStorage.getItem("id") as string; // Retrieve the user ID from local storage
+  const [cookies] = useCookies(["id"]);
   const queryClient = useQueryClient(); // Retrieve the query client instance
 
   // Use React Query's useMutation hook to define the mutation operation
@@ -314,13 +324,13 @@ export const useAddContact = () => {
         name,
         walletAddress,
         tags,
-        userId: Number(id), // Convert user ID to number and pass it to the addContact function
+        userId: Number(cookies?.id), // Convert user ID to number and pass it to the addContact function
       }),
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: () => {
       // Invalidate the query for contacts associated with the current user to trigger refetching
       queryClient.invalidateQueries({
-        queryKey: ["contact", id],
+        queryKey: ["contact", cookies?.id],
       });
     },
   });

@@ -16,14 +16,15 @@ export const transfer = async ({
   amounts,
   tokenId,
   walletId,
-}: Transfer) => {
+  userToken,
+}: Transfer & { userToken: string }) => {
   try {
     // Send a POST request to the server to initiate the transfer
     const response = await fetch(`${BASE_URL}/transactions/transfer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-User-Token": localStorage.getItem("userToken") as string,
+        "X-User-Token": userToken,
       },
       body: JSON.stringify({
         userId,
@@ -50,13 +51,13 @@ export const transfer = async ({
 // It requires a valid user token for authentication.
 // Returns:
 // - The list of transactions fetched from the server.
-export const getTransactions = async () => {
+export const getTransactions = async (userToken: string) => {
   try {
     // Send a GET request to the server to fetch transactions
     const response = await fetch(`${BASE_URL}/transactions`, {
       headers: {
         "Content-Type": "application/json",
-        "X-User-Token": localStorage.getItem("userToken") as string,
+        "X-User-Token": userToken,
       },
     });
 
