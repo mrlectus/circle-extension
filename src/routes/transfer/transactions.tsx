@@ -28,6 +28,14 @@ export const Transactions = ({ transaction }: { transaction: T }) => {
           .with("INITIATED", () => (
             <Badge className="w-fit h-4">Initiated</Badge>
           ))
+          .with("QUEUED", () => (
+            <Badge className="w-fit h-4 text-yellow-600">Queued</Badge>
+          ))
+          .with("SENT", () => (
+            <Badge className="w-fit h-4 text-[#008339] bg-[#E2FDF2]">
+              Queued
+            </Badge>
+          ))
           .otherwise(() => null)}
         <div className="flex justify-between">
           <div className="flex flex-col gap-2">
