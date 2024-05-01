@@ -16,7 +16,7 @@ const AuthRoute = () => {
       });
     } else {
       if (isExpired) {
-        navigate("/signn", {
+        navigate("/signin", {
           replace: true,
           state: { message: "Please Login" },
         });
