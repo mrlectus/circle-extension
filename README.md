@@ -25,3 +25,9 @@ pin for transactions and other sensitive operations.
 
 ![WalletCreation](https://github.com/mrlectus/circle-extension/assets/25666658/4125ebf2-d4fe-4881-8d99-b4df83479565)
 
+## Wallet Transfers
+
+Users are able to send and receive USDC from their wallets to other wallets. This is done by Logging into the app and clicking your balance
+at the bottom to take you to the transaction screen where you can send USDC or ETH. Please make sure that You are on the same network as the
+person you are sending USDC to or else the transaction would fail. But first we need faucets 😎
+
