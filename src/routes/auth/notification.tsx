@@ -47,7 +47,7 @@ const NotificationHook = () => {
                     })
                     .with("QUEUED", () => {
                       toast(`Your transaction has been queued`);
-                      navigate(-1);
+                      navigate("/");
                     })
                     .with("SENT", () =>
                       toast(`${(notification as T).amounts[0]} USD sent`)
