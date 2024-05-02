@@ -31,3 +31,7 @@ Users are able to send and receive USDC from their wallets to other wallets. Thi
 at the bottom to take you to the transaction screen where you can send USDC or ETH. Please make sure that You are on the same network as the
 person you are sending USDC to or else the transaction would fail. But first we need faucets 😎
 
+
+https://github.com/mrlectus/circle-extension/assets/25666658/44cbfc11-6963-4b73-9bd2-2171e9fe0f92
+
+
