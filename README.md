@@ -38,6 +38,10 @@ https://github.com/mrlectus/circle-extension/assets/25666658/44cbfc11-6963-4b73-
 
 Have you forgotten your wallet transfer pin? no worries you can recover it back by logging into the app and resetting it to something else. I think this feature is great for those that easily forget or don't want the burden or remembering pins.
 
-
 https://github.com/mrlectus/circle-extension/assets/25666658/05b234c1-a0c4-445c-870d-212ca72eb507
 
+## Additional Features
+
+## Address Book (Contacts)
+
+Users can save their contacts to their address book for easy access to their wallet addresses. This is done by clicking on the address book icon on the transaction screen and adding a new contact.
