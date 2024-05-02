@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const AuthRoute = () => {
   const [cookies] = useCookies(["userToken"]);
+  const [token, setToken] = React.useState(cookies?.userToken);
   const navigate = useNavigate();
   const { isExpired } = useJwt(cookies?.userToken || "");
 
@@ -16,7 +17,13 @@ const AuthRoute = () => {
   };
 
   React.useEffect(() => {
-    if (!cookies?.userToken) {
+    // Update token when cookies.userToken changes
+    setToken(cookies?.userToken);
+  }, [cookies?.userToken]);
+
+  React.useEffect(() => {
+    if (!token) {
+      // Check token instead of cookies?.userToken
       redirectToSignIn();
     } else {
       if (isExpired) {
@@ -25,7 +32,7 @@ const AuthRoute = () => {
         navigate("/", { replace: true });
       }
     }
-  }, [cookies?.userToken, isExpired, navigate]);
+  }, [token, isExpired, navigate]);
 
   return (
     <React.Suspense fallback={"Loading"}>
