@@ -34,4 +34,6 @@ person you are sending USDC to or else the transaction would fail. But first we
 
 https://github.com/mrlectus/circle-extension/assets/25666658/44cbfc11-6963-4b73-9bd2-2171e9fe0f92
 
+## Wallet Recovery
 
+Have you forgotten your wallet transfer pin? no worries you can recover it back by logging into the app and resetting it to something else. I think this feature is great for those that easily forget or don't want the burden or remembering pins.
