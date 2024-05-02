@@ -46,6 +46,12 @@ https://github.com/mrlectus/circle-extension/assets/25666658/05b234c1-a0c4-445c-
 
 Users can save their contacts to their address book for easy access to their wallet addresses. This is done by clicking on the address book icon on the transaction screen and adding a new contact.
 
-
 https://github.com/mrlectus/circle-extension/assets/25666658/fbc19dd0-0335-440f-86e7-18b2a219cbdf
 
+## Notification
+
+Notification feature has been implemented in the app by using Circle webhook and Webscokets to give the user live feedback on actions they
+take on the app. This includes making transactions and changin or restoring pin. You can see the Live notification in real time.
+
+### NOTE
+The Login feature in the app is having a bug so you might need to login twice or refresh the page before you are being taken to the dashboard.
