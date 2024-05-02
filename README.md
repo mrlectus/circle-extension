@@ -22,3 +22,6 @@ Circle APIs provide a simple and powerful way to integrate USDC and other stable
 
 Create a new wallet by singning up with your email and password. This process takes you through generating your token and setting up your
 pin for transactions and other sensitive operations.
+
+![WalletCreation](https://github.com/mrlectus/circle-extension/assets/25666658/4125ebf2-d4fe-4881-8d99-b4df83479565)
+
