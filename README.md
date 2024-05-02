@@ -16,6 +16,8 @@ Circle APIs provide a simple and powerful way to integrate USDC and other stable
 - Reactjs (Vite)
 - Tailwind CSS
 
+Link: https://circle-extension.vercel.app
+
 ## Features
 
 ## Wallet Creation
