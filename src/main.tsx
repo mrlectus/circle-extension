@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import Challenge from "./routes/challenges/page.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -21,7 +21,7 @@ import NotificationHook from "./routes/auth/notification.tsx";
 // Create a client
 const queryClient = new QueryClient();
 
-const router = createMemoryRouter([
+const router = createBrowserRouter([
   {
     element: <AuthRoute />,
     children: [

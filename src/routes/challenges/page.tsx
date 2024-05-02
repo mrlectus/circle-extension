@@ -48,21 +48,23 @@ const Challenge = () => {
   });
   return (
     <>
-      <main className="w-[300px] h-[500px] p-4 flex items-center justify-center">
-        <p className="text-center text-xl">
-          If you have just setup your pin, please{" "}
-          <Link to="/signin" className="text-blue-600">
-            click here
-          </Link>{" "}
-          to login else{" "}
-          <span
-            onClick={() => navigate(-1)}
-            className="text-blue-600 cursor-pointer"
-          >
-            click here
-          </span>{" "}
-          to go back
-        </p>
+      <main className="flex justify-center items-center w-full p-2">
+        <div className="w-[440px] h-[600px] p-2 text-white font-space border border-white">
+          <p className="text-center text-xl">
+            If you have just setup your pin, please{" "}
+            <Link to="/signin" className="text-blue-600">
+              click here
+            </Link>{" "}
+            to login else{" "}
+            <span
+              onClick={() => navigate(-1)}
+              className="text-blue-600 cursor-pointer"
+            >
+              click here
+            </span>{" "}
+            to go back
+          </p>
+        </div>
       </main>
     </>
   );

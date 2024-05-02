@@ -13,13 +13,6 @@
     "default_popup": "index.html",
     "default_title": "Circle Wallet"
   },
-  "permissions": [
-    "storage",
-    "tabs",
-    "activeTab"
-  ],
-  "host_permissions": [
-    "http://*/*",
-    "https://*/*"
-  ]
+  "permissions": [],
+  "host_permissions": []
 }

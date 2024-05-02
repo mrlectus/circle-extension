@@ -43,85 +43,87 @@ const AddContact = () => {
   });
   const contact = useAddContact();
   return (
-    <main className="w-[300px] h-[400px] p-2 text-white font-space">
-      <div className="flex gap-2 items-center">
-        <ChevronLeft
-          onClick={() => navigate(-1)}
-          className="w-10 h-10 cursor-pointer"
-        />
-        <p className="font-bold text-xl">New Contact</p>
-      </div>
-      <div className="p-4">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit((data) =>
-              contact.mutate(data, {
-                onSuccess: () => {
-                  toast.success("contact added");
-                },
-                onError: (error) => {
-                  toast.error(error.message);
-                },
-              })
-            )}
-            className="space-y-3"
-          >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter contact username" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
+    <main className="flex justify-center items-center w-full p-2">
+      <div className="w-[440px] h-[600px] p-2 text-white font-space border border-white rounded-md drop-shadow-md">
+        <div className="flex gap-2 items-center">
+          <ChevronLeft
+            onClick={() => navigate(-1)}
+            className="w-10 h-10 cursor-pointer"
+          />
+          <p className="font-bold text-xl">New Contact</p>
+        </div>
+        <div className="p-4">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit((data) =>
+                contact.mutate(data, {
+                  onSuccess: () => {
+                    toast.success("contact added");
+                  },
+                  onError: (error) => {
+                    toast.error(error.message);
+                  },
+                })
               )}
-            />
-            <FormField
-              control={form.control}
-              name="walletAddress"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter wallet address " {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="tags"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Labels</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Label e.g friend,Bob's Store"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription className="text-xs">
-                    Labels can be seperated by commas
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" variant={"outline"} className="w-full">
-              {match(contact.status)
-                .with("pending", () => (
-                  <>
-                    <LoaderIcon /> Save
-                  </>
-                ))
-                .otherwise(() => "Save")}
-            </Button>
-          </form>
-        </Form>
+              className="space-y-3"
+            >
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter contact username" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="walletAddress"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter wallet address " {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tags"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Labels</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Label e.g friend,Bob's Store"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription className="text-xs">
+                      Labels can be seperated by commas
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant={"outline"} className="w-full">
+                {match(contact.status)
+                  .with("pending", () => (
+                    <>
+                      <LoaderIcon /> Save
+                    </>
+                  ))
+                  .otherwise(() => "Save")}
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
     </main>
   );

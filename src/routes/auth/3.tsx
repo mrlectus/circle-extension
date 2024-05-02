@@ -19,7 +19,7 @@ export const Token = () => {
         onClick={() => {
           token.mutate({ userId });
         }}
-        className="border-2 text-white rounded-lg bg-black hover:bg-black/70 border-white drop-shadow-lg"
+        variant={"outline"}
       >
         {token.isPending ? (
           <LoaderCircle className="animate-spin" />

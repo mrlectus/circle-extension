@@ -11,13 +11,15 @@ const SignUp = () => {
   console.log(steps, userId, encryptionKey);
   return (
     <>
-      <main className="w-[300px] p-4 flex flex-col justify-center items-center">
-        {match(steps)
-          .with(1, () => <Onboarding />)
-          .with(2, () => <CreateUser />)
-          .with(3, () => <Token />)
-          .with(4, () => <Wallet />)
-          .otherwise(() => null)}
+      <main className="flex justify-center items-center w-full p-2">
+        <div className="w-[440px] h-[600px] p-2 text-white font-space border border-white">
+          {match(steps)
+            .with(1, () => <Onboarding />)
+            .with(2, () => <CreateUser />)
+            .with(3, () => <Token />)
+            .with(4, () => <Wallet />)
+            .otherwise(() => null)}
+        </div>
       </main>
     </>
   );

@@ -35,7 +35,7 @@ export const Wallet = () => {
   });
   const wallet = useCreateWallet();
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader className="flex items-center">
         <CardTitle>
           <img
@@ -91,10 +91,7 @@ export const Wallet = () => {
                 </FormItem>
               )}
             />
-            <Button
-              type="submit"
-              className="border-2 w-full text-white rounded-lg bg-black hover:bg-black/70 border-white drop-shadow-lg"
-            >
+            <Button type="submit" variant={"outline"} className="w-full">
               {wallet.isPending ? (
                 <LoaderCircle className="animate-spin" />
               ) : (

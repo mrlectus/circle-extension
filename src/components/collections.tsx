@@ -47,7 +47,7 @@ export const Collections = () => {
             {match(listWallet.status)
               .with("pending", () => <Skeleton className="w-full h-48" />)
               .with("success", () => (
-                <Card className="w-full bg-[#262628] p-0">
+                <Card className="w-full bg-[#262628] p-0 h-[400px]">
                   <div className="flex justify-between p-2 ">
                     {blockchain}{" "}
                     <Badge className="text-[#53C26E] font-extrabold flex h-4 bg-[#ffffff29] border">
@@ -124,7 +124,7 @@ export const Collections = () => {
           </TabsContent>
           <TabsContent value="collectibles"></TabsContent>
           <TabsContent value="faucets">
-            <Card className="w-full bg-[#262628] p-0">
+            <Card className="w-full bg-[#262628] p-0 h-[400px]">
               <CardContent>
                 <Faucet />
               </CardContent>

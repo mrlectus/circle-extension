@@ -16,7 +16,7 @@ type T = z.infer<typeof Transaction>;
 type C = z.infer<typeof Challenge>;
 const NotificationHook = () => {
   const queryClient = useQueryClient();
-  const socketUrl = "ws://127.0.0.1:3000/webhook";
+  const socketUrl = `${import.meta.env.VITE_PUBLIC_WSS}/webhook`;
   const { lastMessage } = useWebSocket(socketUrl, {
     share: true,
   });

@@ -33,7 +33,7 @@ export const CreateUser = () => {
   });
   const user = useCreateUser();
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader className="flex items-center">
         <CardTitle>
           <img
@@ -49,7 +49,7 @@ export const CreateUser = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit((data) => user.mutate(data))}
-            className="space-y-2"
+            className="space-y-4"
           >
             <FormField
               control={form.control}
@@ -94,7 +94,7 @@ export const CreateUser = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" variant={"outline"}>
               {user.isPending ? (
                 <LoaderCircle className="animate-spin" />
               ) : (

@@ -41,84 +41,86 @@ const SignIn = () => {
   const login = useLogin();
   const navigate = useNavigate();
   return (
-    <main className="w-[300px]">
-      <Card>
-        <CardHeader className="flex items-center">
-          <CardTitle>
-            <img
-              src={
-                "https://pbs.twimg.com/profile_images/1719446730091962368/Bl01sQsB_400x400.png"
-              }
-              width={50}
-              height={50}
-            />
-          </CardTitle>
-          <CardDescription>Sign In</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit((data) =>
-                login.mutate(data, {
-                  onSuccess: () => {
-                    toast.success("Login success");
-                    navigate("/");
-                  },
-                })
-              )}
-              className="space-y-6"
-            >
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your email"
-                        {...field}
-                        type="email"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+    <main className="flex justify-center items-center w-full p-2">
+      <div className="w-[440px] h-[600px] p-2 text-white font-space border border-white">
+        <Card className="h-full">
+          <CardHeader className="flex items-center">
+            <CardTitle>
+              <img
+                src={
+                  "https://pbs.twimg.com/profile_images/1719446730091962368/Bl01sQsB_400x400.png"
+                }
+                width={50}
+                height={50}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your password"
-                        {...field}
-                        type="password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+            </CardTitle>
+            <CardDescription>Sign In</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit((data) =>
+                  login.mutate(data, {
+                    onSuccess: () => {
+                      toast.success("Login success");
+                      navigate("/");
+                    },
+                  })
                 )}
-              />
-              <Button type="submit" className="w-full">
-                {login.isPending ? (
-                  <LoaderCircle className="animate-spin" />
-                ) : (
-                  "Login"
-                )}
-              </Button>
-            </form>
-          </Form>
-          <p className="text-xs text-center m-2">
-            Dont hava a wallet create one now{" "}
-            <Link to={"/signup"} className="text-blue-500">
-              create wallet
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+                className="space-y-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your email"
+                          {...field}
+                          type="email"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your password"
+                          {...field}
+                          type="password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full">
+                  {login.isPending ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : (
+                    "Login"
+                  )}
+                </Button>
+              </form>
+            </Form>
+            <p className="text-xs text-center m-2">
+              Dont hava a wallet create one now{" "}
+              <Link to={"/signup"} className="text-blue-500">
+                create wallet
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 };
