@@ -48,16 +48,20 @@ export const useCreateUser = () => {
 
 // This custom hook handles the creation of a new token.
 export const useCreateToken = () => {
+  const [, setCookies] = useCookies(["userToken", "encryptionKey"]);
   const [setToken] = useTokenState((state) => [state.setToken]);
   const [increase] = useUserState((state) => [state.increase]);
   return useMutation({
     mutationKey: ["token"],
     mutationFn: ({ userId }: { userId: string }) => createToken({ userId }),
     onSuccess: (data) => {
-      console.log(data.data.userToken);
       setToken({
         encryptionKey: data.data?.encryptionKey,
         userToken: data.data?.userToken,
+      });
+      setCookies("userToken", data.data?.userToken, { path: "/" });
+      setCookies("encryptionKey", data.data?.encryptionKey, {
+        path: "/",
       });
       increase();
     },
@@ -81,8 +85,7 @@ export const useCreateWallet = () => {
       setChallengeID(data.data?.challengeId);
       navigate("/challenge");
     },
-    onError: (error) => {
-      console.log("->", error);
+    onError: () => {
       toast.error("Error creating wallet");
     },
   });
@@ -118,11 +121,17 @@ export const useLogin = () => {
       login({ email, password }), // Call the login function with provided parameters
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
+      // Store user data in the local storage for persistent session management
+      setCookies("userId", data.userId, { path: "/" });
+      setCookies("username", data.username, { path: "/" });
+      setCookies("email", data.email, { path: "/" });
+      setCookies("id", data.id, { path: "/" });
       // Trigger the token mutation to create a token for the logged-in user
       token.mutate(
         { userId: data.userId },
         {
           onSuccess: (data) => {
+            console.log("data->", data);
             setCookies("userToken", data.data?.userToken, { path: "/" });
             setCookies("encryptionKey", data.data?.encryptionKey, {
               path: "/",
@@ -130,11 +139,6 @@ export const useLogin = () => {
           },
         }
       );
-      // Store user data in the local storage for persistent session management
-      setCookies("userId", data.userId, { path: "/" });
-      setCookies("username", data.username, { path: "/" });
-      setCookies("email", data.email, { path: "/" });
-      setCookies("id", data.id, { path: "/" });
     },
     // Define the onError callback function which will be executed when an error occurs during the mutation
     onError: (error) => {
