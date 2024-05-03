@@ -48,7 +48,6 @@ export const useCreateUser = () => {
 
 // This custom hook handles the creation of a new token.
 export const useCreateToken = () => {
-  const [_, setCookies] = useCookies(["userToken", "encryptionKey"]);
   const [setToken] = useTokenState((state) => [state.setToken]);
   const [increase] = useUserState((state) => [state.increase]);
   return useMutation({
@@ -60,8 +59,6 @@ export const useCreateToken = () => {
         encryptionKey: data.data?.encryptionKey,
         userToken: data.data?.userToken,
       });
-      setCookies("userToken", data.data?.userToken, { path: "/" });
-      setCookies("encryptionKey", data.data?.encryptionKey, { path: "/" });
       increase();
     },
     onError: () => {
@@ -103,7 +100,14 @@ export const useGetStatus = (token: string) => {
 export const useLogin = () => {
   // Call the useCreateToken hook to obtain a token for the logged-in user
   const token = useCreateToken();
-  const [_, setCookies] = useCookies(["userId", "username", "email", "id"]);
+  const [_, setCookies] = useCookies([
+    "userId",
+    "username",
+    "email",
+    "id",
+    "userToken",
+    "encryptionKey",
+  ]);
 
   // Use React Query's useMutation hook to define the mutation operation
   return useMutation({
@@ -115,9 +119,18 @@ export const useLogin = () => {
     // Define the onSuccess callback function which will be executed when the mutation is successful
     onSuccess: (data) => {
       // Trigger the token mutation to create a token for the logged-in user
-      token.mutate({ userId: data.userId });
+      token.mutate(
+        { userId: data.userId },
+        {
+          onSuccess: (data) => {
+            setCookies("userToken", data.data?.userToken, { path: "/" });
+            setCookies("encryptionKey", data.data?.encryptionKey, {
+              path: "/",
+            });
+          },
+        }
+      );
       // Store user data in the local storage for persistent session management
-
       setCookies("userId", data.userId, { path: "/" });
       setCookies("username", data.username, { path: "/" });
       setCookies("email", data.email, { path: "/" });
