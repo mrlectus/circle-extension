@@ -21,8 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/api";
 import { LoaderCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -39,7 +38,6 @@ const SignIn = () => {
   });
 
   const login = useLogin();
-  const navigate = useNavigate();
   return (
     <main className="flex justify-center items-center w-full p-2">
       <div className="w-[440px] h-[600px] p-2 text-white font-space border border-white">
