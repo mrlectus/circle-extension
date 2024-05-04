@@ -101,6 +101,7 @@ export const useGetStatus = (token: string) => {
 
 // This custom hook handles the login functionality.
 export const useLogin = () => {
+  const navigate = useNavigate();
   // Call the useCreateToken hook to obtain a token for the logged-in user
   const token = useCreateToken();
   const [_, setCookies] = useCookies([
@@ -130,12 +131,9 @@ export const useLogin = () => {
       token.mutate(
         { userId: data.userId },
         {
-          onSuccess: (data) => {
-            console.log("data->", data);
-            setCookies("userToken", data.data?.userToken, { path: "/" });
-            setCookies("encryptionKey", data.data?.encryptionKey, {
-              path: "/",
-            });
+          onSuccess: () => {
+            toast.success("Login success");
+            navigate("/");
           },
         }
       );

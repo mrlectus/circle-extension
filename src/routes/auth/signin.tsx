@@ -61,10 +61,7 @@ const SignIn = () => {
               <form
                 onSubmit={form.handleSubmit((data) =>
                   login.mutate(data, {
-                    onSuccess: () => {
-                      toast.success("Login success");
-                      navigate("/");
-                    },
+                    onSuccess: () => {},
                   })
                 )}
                 className="space-y-6"
