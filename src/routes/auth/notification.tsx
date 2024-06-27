@@ -42,7 +42,7 @@ const NotificationHook = () => {
                       toast(
                         `transaction of ${
                           (notification as T).amounts[0]
-                        } USD has been initiated`
+                        } USD has been initiated`,
                       );
                     })
                     .with("QUEUED", () => {
@@ -50,26 +50,26 @@ const NotificationHook = () => {
                       navigate("/");
                     })
                     .with("SENT", () =>
-                      toast(`${(notification as T).amounts[0]} USD sent`)
+                      toast(`${(notification as T).amounts[0]} USD sent`),
                     )
                     .with("CONFIRMED", () =>
-                      toast(`Your transaction has been confirmed`)
+                      toast(`Your transaction has been confirmed`),
                     )
                     .with("COMPLETED", () =>
-                      toast(`Your transaction has been completed`)
+                      toast(`Your transaction has been completed`),
                     )
                     .with("FAILED", () =>
                       toast.error(
                         `Your transaction failed! ${
                           (notification as T).errorDetails
-                        }`
-                      )
+                        }`,
+                      ),
                     )
                     .otherwise(() =>
-                      console.log("state: ", (notification as T).state)
-                    )
+                      console.log("state: ", (notification as T).state),
+                    ),
                 )
-                .otherwise(() => null)
+                .otherwise(() => null),
             )
             .with("challenges.initialize", () =>
               match((notification as C).userId).with(userId, () =>
@@ -82,10 +82,9 @@ const NotificationHook = () => {
                     queryClient.invalidateQueries({
                       queryKey: ["walletBalance", userId],
                     });
-                    navigate("/signin");
-                  })
-                )
-              )
+                  }),
+                ),
+              ),
             )
             .otherwise(() => null);
         }
